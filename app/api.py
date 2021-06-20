@@ -1,6 +1,7 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Body
 
-from app.model import PostSchema
+from app.model import PostSchema, UserSchema, UserLoginSchema
+from app.auth.auth_handler import signJWT
 
 app = FastAPI()
 
@@ -28,11 +29,18 @@ async def get_single_posts(id: int) -> dict:
 
     raise HTTPException(status_code=404, detail="Post cannot be found")
 
+
 @app.post("/posts", tags=["posts"])
 async def add_post(post: PostSchema):
     post.id = len(posts) + 1
     posts.append(post.dict())
 
-    return {
-        "data": post
-    }
+    return {"data": post}
+
+
+@app.post("/user/signup", tags=["user"])
+async def create_user(user: UserSchema = Body(...)):
+    users.append(
+        user
+    )  # replace with db call, making sure to hash the password first with for instance bcrypt or passlib
+    return signJWT(user.email)
