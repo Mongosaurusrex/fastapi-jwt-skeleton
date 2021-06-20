@@ -15,11 +15,13 @@ posts = [{"id": 1, "title": "Testing", "content": "Lorem Ipsum ..."}]
 
 users = []
 
+
 def check_user(data: UserLoginSchema):
     for user in users:
         if user.email == data.email and user.password == data.password:
             return True
     return False
+
 
 @app.get("/posts", tags=["posts"])
 async def get_posts() -> dict:
@@ -49,6 +51,7 @@ async def create_user(user: UserSchema = Body(...)):
         user
     )  # replace with db call, making sure to hash the password first with for instance bcrypt or passlib
     return signJWT(user.email)
+
 
 @app.post("/user/login", tags=["user"])
 async def user_login(user: UserLoginSchema = Body(...)):
