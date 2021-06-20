@@ -17,4 +17,5 @@ Skeleton for authentication &amp; authorization through JWT in FastAPI
    b'deff1952d59f883ece260e8683fed21ab0ad9a53323eca4f'
    ```
 3. Run by using `python main.py`
+4. The server should be running on `localhost:8081/` and the documentation should be available through `localhost:8081/docs`
    

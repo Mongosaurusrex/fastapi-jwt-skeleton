@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Body
+from fastapi import FastAPI, HTTPException, Body, Depends
 
 from app.model import PostSchema, UserSchema, UserLoginSchema
 from app.auth.auth_bearer import JWTBearer
@@ -38,7 +38,7 @@ async def get_single_posts(id: int) -> dict:
     raise HTTPException(status_code=404, detail="Post cannot be found")
 
 
-@app.post("/posts", dependencies=[JWTBearer()], tags=["posts"])
+@app.post("/posts", dependencies=[Depends(JWTBearer())], tags=["posts"])
 async def add_post(post: PostSchema):
     post.id = len(posts) + 1
     posts.append(post.dict())
